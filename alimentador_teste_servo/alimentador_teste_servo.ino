@@ -10,7 +10,7 @@ void setup() {
 }
 void loop() {
 //time goes up here
-repetidordeFuncao(10,130);
+repetidordeFuncao(1,97);
 
 
 
@@ -18,9 +18,10 @@ repetidordeFuncao(10,130);
 
 int repetidordeFuncao(int repeticao,int angulo){ //later use pointers to call the function
 int i = 0;
-for(i;i<repeticao;i++){
+for(i;i<2;i++){
 AbrindoeFechando(angulo);
 }
+myservo.write(50);
 }
 
 int AbrindoeFechando(int angulo){
