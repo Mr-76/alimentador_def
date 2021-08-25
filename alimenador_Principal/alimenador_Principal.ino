@@ -84,7 +84,7 @@ if (now.hour() == 8 && now.minute() == 28 && now.second() == 30){
 //time goes up here
 repetidordeFuncao(tempo,repeticao,angulo,fechado);
                 }
-
+//
 
 	    }
 
