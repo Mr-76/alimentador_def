@@ -10,7 +10,7 @@ int fechado;
 int angulo;   //inteiro para declarar posiçao
 int repeticao;
 int tempo;
-long int tempo_aguar = 1800000;//minutos*segunds*milisegundos
+ float tempo_aguar = 360000;//minutos*segunds*milisegundos
 void setup() 	{
  pinMode(PINO_RELE,OUTPUT);
 Serial.begin(57600);
@@ -30,9 +30,9 @@ void loop() {
 
 
 
-angulo = 50;
-repeticao = 8;
-tempo = 1200;
+angulo = 46;
+repeticao = 2;
+tempo = 920;
 fechado = 80;
 myservo.write(fechado);
 DateTime now = RTC.now();
@@ -59,14 +59,14 @@ Serial.print(now.year(), DEC);
 
 
 
-if (now.hour() == 18 && now.minute() == 28 && now.second() == 30){
+if (now.hour() == 16 && now.minute() == 28 && now.second() == 30){
 
 //time goes up here
 repetidordeFuncao(tempo,repeticao,angulo,fechado);
 								 }
 
                  
-if (now.hour() == 16 && now.minute() == 8 && now.second() == 50){
+if (now.hour() == 14 && now.minute() == 15 && now.second() == 10){
 
 //time goes up here
 repetidordeFuncao(tempo,repeticao,angulo,fechado);
@@ -81,7 +81,7 @@ repetidordeFuncao(tempo,repeticao,angulo,fechado);
 
 
                  
-if (now.hour() == 8 && now.minute() == 28 && now.second() == 30){
+if (now.hour() == 8 || now.hour() ==10 && now.minute() == 28 && now.second() == 30){
 
 //time goes up here
 repetidordeFuncao(tempo,repeticao,angulo,fechado);
@@ -89,7 +89,7 @@ repetidordeFuncao(tempo,repeticao,angulo,fechado);
 
 
                 
-if (now.hour() == 6 || now.hour() == 13 && now.minute() == 0 && now.second() == 30){
+if (now.hour() == 6 && now.minute() == 0 && now.second() == 30){
   digitalWrite(PINO_RELE,HIGH);
   delay(tempo_aguar);
   digitalWrite(PINO_RELE,LOW);
