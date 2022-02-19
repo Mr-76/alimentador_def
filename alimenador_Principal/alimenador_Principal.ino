@@ -6,110 +6,56 @@ RTC_DS1307 RTC; // objeto rtc relogio
 Servo myservo; // def o objeto servo se referindo ao servo motor
 
 int PINO_RELE = 6;
-int fechado;
-int angulo;   //inteiro para declarar posiçao
-int repeticao;
-int tempo;
- float tempo_aguar = 360000;//minutos*segunds*milisegundos
+int angulo = 46;
+int repeticao = 2;
+int tempo = 920;
+int fechado = 80;
+float tempo_aguar = 360000;
+
 void setup() 	{
- pinMode(PINO_RELE,OUTPUT);
-Serial.begin(57600);
-Wire.begin();
-RTC.begin();
+	pinMode(PINO_RELE,OUTPUT);
+	Serial.begin(57600);
+	Wire.begin();
+	RTC.begin();
 
-if (! RTC.isrunning())  { 
-   Serial.println("RTC is NOT running!");
-    // following line sets the RTC to the date & time this sketch was compiled
-   // RTC.adjust(DateTime(__DATE__, __TIME__));
-  			}
+	if (! RTC.isrunning())  { 
+	   Serial.println("RTC is NOT running!");
+	    // following line sets the RTC to the date & time this sketch was compiled
+	   // RTC.adjust(DateTime(__DATE__, __TIME__));
+	}
+	myservo.attach(9); // define que pin o servo esta conectado 
+}
 
-myservo.attach(9); // define que pin o servo esta conectado 
-  
-		}
 void loop() {
-
-
-
-angulo = 46;
-repeticao = 2;
-tempo = 920;
-fechado = 80;
-myservo.write(fechado);
-DateTime now = RTC.now();
-Serial.print(now.year(), DEC);
-    Serial.print('/');
-    Serial.print(now.month(), DEC);
-    Serial.print('/');
-    Serial.print(now.day(), DEC);
-    Serial.print(' ');
-    Serial.print(now.hour(), DEC);
-    Serial.print(':');
-    Serial.print(now.minute(), DEC);
-    Serial.print(':');
-    Serial.print(now.second(), DEC);
-    Serial.println();
-    
- 
-    
-    // calculate a date which is 7 days and 30 seconds into the future
-    DateTime future (now.unixtime() + 7 * 86400L + 30);
-
-    Serial.println();
-    delay(1000);
-
-
-
-if (now.hour() == 16 && now.minute() == 28 && now.second() == 30){
-
-//time goes up here
-repetidordeFuncao(tempo,repeticao,angulo,fechado);
-								 }
-
+	DateTime now = RTC.now();
+	
+	delay(1000);
                  
-if (now.hour() == 14 && now.minute() == 15 && now.second() == 10){
+	if (now.hour() == 8 || now.hour() == 10 || now.hour() == 12 || now.hour() == 14 || now.hour() == 16) && now.minute() == 30){
+		repetidordeFuncao(tempo,repeticao,angulo,fechado);
+	}
 
-//time goes up here
-repetidordeFuncao(tempo,repeticao,angulo,fechado);
-                }
-
-                
-if (now.hour() == 12 && now.minute() == 28 && now.second() == 30){
-
-//time goes up here
-repetidordeFuncao(tempo,repeticao,angulo,fechado);
-                 }
-
-
-                 
-if (now.hour() == 8 || now.hour() ==10 && now.minute() == 28 && now.second() == 30){
-
-//time goes up here
-repetidordeFuncao(tempo,repeticao,angulo,fechado);
+	if (now.hour() == 6 && now.minute() == 30){
+	  digitalWrite(PINO_RELE,HIGH);
+	  delay(tempo_aguar);
+	  digitalWrite(PINO_RELE,LOW);
+	}
 }
 
 
-                
-if (now.hour() == 6 && now.minute() == 0 && now.second() == 30){
-  digitalWrite(PINO_RELE,HIGH);
-  delay(tempo_aguar);
-  digitalWrite(PINO_RELE,LOW);
-
-}
-
-	    }
-
-void repetidordeFuncao(int segundos,int repeticao,int angulo, int fechando){//later use pointers to call the function
+void repetidordeFuncao(int segundos,int repeticao,int angulo, int fechando){
 //funcao abre e fecha abertura do cano segundos se refere ao tempo aberto em mili secs , repeticao se refere ao numero de vezes 
-//para abrir e fechar a abertura angulo se refere ao angulo de abertura.
-int i = 0;
-for(i;i<repeticao;i++)	{
-AbrindoeFechando(segundos,angulo,fechado);
-			}
-						}
+//para abrir e fechar a abertura angulo se refere ao angulo de abertura
+	for(int i = 0;i<repeticao;i++)	{
+	AbrindoeFechando(segundos,angulo,fechado);
+	}
+	delay(60000);
+	myservo.write(fechado);
+}
 
 void AbrindoeFechando(int segundos,int angulo,int fechado){
-myservo.write(angulo);
-delay(segundos);
-myservo.write(fechado); //fecha //closes
-delay(segundos);
-				}
+	myservo.write(angulo);
+	delay(segundos);
+	myservo.write(fechado); //fecha //closes
+	delay(segundos);
+}
