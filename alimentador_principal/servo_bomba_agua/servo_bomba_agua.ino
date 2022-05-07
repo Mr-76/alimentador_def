@@ -1,6 +1,6 @@
 #include "Servo.h"
 #include <Wire.h>
-#include <RTClib.h>
+#include "RTClib.h"
 #include <Keypad.h>
 
 RTC_DS1307 RTC; // objeto rtc relogio 
@@ -8,20 +8,32 @@ Servo myservo; // def o objeto servo se referindo ao servo motor
 int PINO_RELE = 3;
 
 void setup(){
+  Serial.begin(57600);
   pinMode(LED_BUILTIN, OUTPUT);
 	pinMode(PINO_RELE,OUTPUT);
-	Serial.begin(57600);
-	RTC.begin();
+	
+  #ifndef ESP8266
+  while (!Serial); // wait for serial port to connect. Needed for native USB
+  #endif
+  if (! RTC.begin()) {
+    Serial.println("Couldn't find RTC");
+    Serial.flush();
+    while (1) delay(10);
+  }
 
-	if (! RTC.isrunning())  { 
-		Serial.println("RTC is NOT running!");
-		// RTC.adjust(DateTime(__DATE__, __TIME__));
-		// RTC.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-	}
-	myservo.attach(2); // define que pin o servo esta conectado 
+  if (! RTC.isrunning()) {
+    Serial.println("RTC is NOT running, let's set the time!");
+    // When time needs to be set on a new device, or after a power loss, the
+    // following line sets the RTC to the date & time this sketch was compiled
+    RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+	myservo.attach(D4); // define que pin o servo esta conectado 
 }
 
-DateTime now = RTC.now(); //ser visto no escopo global colocar nas func depois
+DateTime now = RTC.now(); //nao pode programa buga usar em funcçao para funcionar
 
 void loop() {
 	DateTime now = RTC.now();
@@ -33,7 +45,7 @@ void loop() {
 	Serial.println();
 	delay(1000);
 	
-	ativado(5,12,18,5);
+	ativado(5,9,18,10);
 	watering_plants(6,30,3);
 
 }
