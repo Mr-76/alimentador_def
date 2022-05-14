@@ -1,6 +1,6 @@
 #include "Servo.h"
 #include <Wire.h>
-#include <RTClib.h>
+#include "RTClib.h"
 #include <Keypad.h>
 /**
  *@file servo_bomba_agua.ino
@@ -21,11 +21,10 @@ Servo myservo; // def o objeto servo se referindo ao servo motor
 int PINO_RELE = 3;
 
 void setup(){
-  //pinMode(LED_BUILTIN, OUTPUT);
-	pinMode(PINO_RELE,OUTPUT);
 	Serial.begin(57600);
-	RTC.begin();
-
+	pinMode(LED_BUILTIN, OUTPUT);
+	pinMode(PINO_RELE,OUTPUT);
+	
 	if (! RTC.isrunning())  { 
 		Serial.println("RTC is NOT running!");
 		//RTC.adjust(DateTime(__DATE__, __TIME__));
@@ -48,9 +47,7 @@ void loop() {
 	Serial.println();
 	delay(1000);
 	servo_tester(80,60,myservo);	
-	
 	ativado(5,12,18,5,now);
-	
 	watering_plants(6,30,3,now);
 
 }
