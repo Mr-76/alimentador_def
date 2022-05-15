@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['servo_5ftester_0',['servo_tester',['../servo__bomba__agua_8ino.html#ae67b1bebcbb2851c09aae05838439ca4',1,'servo_bomba_agua.ino']]],
-  ['setup_1',['setup',['../servo__bomba__agua_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'servo_bomba_agua.ino']]]
+  ['opening_5fand_5fclosing_0',['opening_and_closing',['../servo__bomba__agua_8ino.html#acb47ae2303cf48709e2b8d444b0dec09',1,'servo_bomba_agua.ino']]]
 ];

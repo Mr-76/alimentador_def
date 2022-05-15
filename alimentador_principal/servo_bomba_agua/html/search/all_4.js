@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pino_5frele_0',['PINO_RELE',['../servo__bomba__agua_8ino.html#ad83102c61a3deee177006e80f0ae80de',1,'servo_bomba_agua.ino']]]
+  ['opening_5fand_5fclosing_0',['opening_and_closing',['../servo__bomba__agua_8ino.html#acb47ae2303cf48709e2b8d444b0dec09',1,'servo_bomba_agua.ino']]]
 ];
