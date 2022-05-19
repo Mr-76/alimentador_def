@@ -20,27 +20,30 @@
 
 RTC_DS1307 RTC; //RTC object 
 Servo myservo; //servo object
-int PINO_RELE = 3;
+int PINO_RELE = D5;
 
 void setup(){
 	Serial.begin(57600);
 	pinMode(LED_BUILTIN, OUTPUT);
 	pinMode(PINO_RELE,OUTPUT);
+		
 	
-	
-  if (! RTC.begin()) {
-    Serial.println("Couldn't find RTC");
-    Serial.flush();
-    while (1) delay(10);
-  }
-  if (! RTC.isrunning()) {
-    Serial.println("RTC is NOT running, let's set the time!");
-    RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    // RTC.adjust(DateTime(year, month, day, hh, mm, ss));
-  }
+	if (! RTC.begin()) {
+		Serial.println("Couldn't find RTC");
+		Serial.flush();
+		// while (1) delay(10);
+	}
+
+	if (! RTC.isrunning()) {
+		Serial.println("RTC is NOT running, let's set the time!");
+		//RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
+		RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
+	}
+  //RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
   
-	myservo.attach(D4); 
-  myservo.write(120);
+	myservo.attach(D4);
+	myservo.write(155);
+  
 }
 
 
@@ -53,9 +56,9 @@ void loop() {
 	Serial.print(now.second(), DEC);
 	Serial.println();
 	delay(1000);
-	//servo_tester(90,120,myservo);	
-	ativado(5,12,19,31,now,myservo);
-	//watering_plants(6,30,3,now);
+	//servo_tester(120,90,myservo);
+	ativado(5,12,17,30,now,myservo);
+	watering_plants(6,30,2,now);
 
 }
 
@@ -72,16 +75,14 @@ void loop() {
 */
 
 void servo_tester(int open_angle,int close_angle,Servo my_servo){
-
 	Serial.println("Opening");
 	//delay(2000);
 	my_servo.write(open_angle);
-	delay(920);
+	delay(2000);
 	Serial.println("Closing...");
 	//delay(2000);
 	my_servo.write(close_angle);
-	delay(920);
-	
+	delay(2000);
 }
 
 /**
@@ -120,24 +121,50 @@ void watering_plants(int hour,int minute,int tempo_aguar,DateTime now){
 @return void
 */
 void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_servo){
-	//ativa o servo a partir do tempo determinado
-    Serial.println("function ativado");
-    
-	int angle,repeat,tempo,fechado = (90,4,2000,120);//buggin >:
- 
+	Serial.println("function ativado");
+	int angle  = 180;
+	int repeat = 2;
+	int timing = 1700;
+	int closed = 155;
 	int timings_array[] = {hour1,hour2,hour3};
 	int size_array = (sizeof(timings_array)/sizeof(int));//tamanho do array para loop
 	for(int i = 0;i < size_array;i++){
 		if ((now.hour()) == (timings_array[i])){
+			Serial.println("function ativado inside 1");
 			if ((now.minute()) == (minutes1)){
-           Serial.println("repeater func");
-           servo_tester(90,120,myservo); // create new loop >:
-           servo_tester(90,120,myservo);
-           delay(60000);
+				Serial.println("function ativado inside 2");
+				for(int repeat_times = 0; repeat_times < repeat; repeat_times++){
+					Serial.println("repeater func1");
+					activate_servo(angle,closed,myservo,timing); 
+					delay(1000);
+				}
+				delay(60000);//pass 1 min
+			}else{
+				break;
 			}
-		}
-		else{
+		}else{
 			continue;
 		}
 	}
+}
+
+/**
+*Activates the servo
+*@param open_angle
+*angle to open the exit of food
+*@param close_angle
+*angle to close the exit of food
+*@param my_servo
+*Servo object to run the commands
+*@return
+*void
+*/
+void activate_servo(int open_angle,int close_angle,Servo my_servo,int timing){
+
+	Serial.println("Opening");
+	my_servo.write(open_angle);
+	delay(timing);
+	Serial.println("Closing...");
+	my_servo.write(close_angle);
+	delay(timing);
 }
