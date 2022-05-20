@@ -1,7 +1,5 @@
-#include "Servo.h"
-#include <Wire.h>
-#include "RTClib.h"
-#include <Keypad.h>
+
+#include "Food_giver.h"
 
 /**
  *@file servo_bomba_agua.ino
@@ -18,9 +16,18 @@
  *- Created by Mr-76
  */
 
+
+
 RTC_DS1307 RTC; //RTC object 
 Servo myservo; //servo object
+  
 int PINO_RELE = D5;
+DateTime now = RTC.now();
+int timing[5] = {5,12,17,0,0};
+int minutes1 = 30;
+Food_giver food_01(timing,minutes1,myservo,now);
+
+//Food_giver *p;
 
 void setup(){
 	Serial.begin(57600);
@@ -39,11 +46,14 @@ void setup(){
 		//RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
 		RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
 	}
-  //RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
-  
-	myservo.attach(D4);
-	myservo.write(155);
-  
+ 
+  DateTime now = RTC.now();
+  myservo.attach(D4);
+  myservo.write(155);
+  //p = &food_01;// pointer works ? or better use global
+  int timing[5] = {50,12,17,0,0};
+  Food_giver food_01(timing,minutes1,myservo,now);//modifyes the global or not ?
+  //Food_giver food_01(timing,minutes1,myservo,now); //creating obj
 }
 
 
@@ -59,7 +69,8 @@ void loop() {
 	//servo_tester(120,90,myservo);
 	ativado(5,12,17,30,now,myservo);
 	watering_plants(6,30,2,now);
-
+  food_01.set_timing(now);
+  food_01.print1();//see if declaring obj in the setup works or not
 }
 
 /**
@@ -112,7 +123,7 @@ void watering_plants(int hour,int minute,int tempo_aguar,DateTime now){
 *first hour timing
 *@param hour2
 *second hour timing
-*@param hour3
+*param hour3
 *third hour timing
 *@param minutes
 *minuts timing
@@ -156,6 +167,8 @@ void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_se
 *angle to close the exit of food
 *@param my_servo
 *Servo object to run the commands
+*@param timing
+*timing of the opening
 *@return
 *void
 */
