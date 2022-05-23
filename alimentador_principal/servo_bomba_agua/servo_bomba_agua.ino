@@ -2,6 +2,13 @@
 #include <Wire.h>
 #include "RTClib.h"
 #include <Keypad.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+Adafruit_SSD1306 display(-1);
+
 
 /**
  *@file servo_bomba_agua.ino
@@ -26,7 +33,11 @@ void setup(){
 	Serial.begin(57600);
 	pinMode(LED_BUILTIN, OUTPUT);
 	pinMode(PINO_RELE,OUTPUT);
-		
+  
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  
+
+  // Clear the buffer.
+  
 	
 	if (! RTC.begin()) {
 		Serial.println("Couldn't find RTC");
@@ -36,8 +47,8 @@ void setup(){
 
 	if (! RTC.isrunning()) {
 		Serial.println("RTC is NOT running, let's set the time!");
-		//RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
-		RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
+	//	RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
+		//RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
 	}
   //RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
   
@@ -56,9 +67,37 @@ void loop() {
 	Serial.print(now.second(), DEC);
 	Serial.println();
 	delay(1000);
+	//
+  int hora = int(now.hour());
+  int minute1 = int(now.minute());
+  int second1 = int(now.second());
+  
+  String horas = String(hora);
+  
+  String minutes1 = String(minute1);
+  
+  String seconds1 = String(second1);
+  
+  display.clearDisplay();
+
+  // Display Text
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0,28);
+  display.println(horas);
+ 
+  display.setCursor(20,28);
+  display.println(minutes1);
+  display.setCursor(40,28);
+  display.println(seconds1);
+  display.display();
+  delay(1000);
+
+
 	//servo_tester(120,90,myservo);
 	ativado(5,12,17,30,now,myservo);
-	watering_plants(6,30,2,now);
+	watering_plants(6,30,6,now);
+  
 
 }
 
