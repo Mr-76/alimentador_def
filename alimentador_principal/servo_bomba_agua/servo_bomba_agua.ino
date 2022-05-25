@@ -95,7 +95,7 @@ void loop() {
 
 
 	//servo_tester(120,90,myservo);
-	ativado(5,12,17,30,now,myservo);
+	ativado(5,12,18,59,now,myservo);
 	watering_plants(6,30,6,now);
   
 
@@ -162,7 +162,7 @@ void watering_plants(int hour,int minute,int tempo_aguar,DateTime now){
 void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_servo){
 	Serial.println("function ativado");
 	int angle  = 180;
-	int repeat = 2;
+	int repeat = 3;
 	int timing = 1700;
 	int closed = 155;
 	int timings_array[] = {hour1,hour2,hour3};
@@ -171,13 +171,14 @@ void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_se
 		if ((now.hour()) == (timings_array[i])){
 			Serial.println("function ativado inside 1");
 			if ((now.minute()) == (minutes1)){
-				Serial.println("function ativado inside 2");
+				//Serial.println("function ativado inside 2");
 				for(int repeat_times = 0; repeat_times < repeat; repeat_times++){
-					Serial.println("repeater func1");
+					//Serial.println("repeater func1");
 					activate_servo(angle,closed,myservo,timing); 
 					delay(1000);
 				}
 				delay(60000);//pass 1 min
+        my_servo.write(closed);
 			}else{
 				break;
 			}
