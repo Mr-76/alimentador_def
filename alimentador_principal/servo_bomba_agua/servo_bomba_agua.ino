@@ -28,7 +28,7 @@ Adafruit_SSD1306 display(-1);
 RTC_DS1307 RTC; //RTC object 
 Servo myservo; //servo object
 int PINO_RELE = D5;
-
+int timing_array[] = {8,12,16,5};
 void setup(){
 	Serial.begin(57600);
 	pinMode(LED_BUILTIN, OUTPUT);
@@ -67,38 +67,29 @@ void loop() {
 	Serial.print(now.second(), DEC);
 	Serial.println();
 	delay(1000);
-	//
-  int hora = int(now.hour());
-  int minute1 = int(now.minute());
-  int second1 = int(now.second());
-  
-  String horas = String(hora);
-  
-  String minutes1 = String(minute1);
-  
-  String seconds1 = String(second1);
-  
-  display.clearDisplay();
 
-  // Display Text
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0,28);
-  display.println(horas);
- 
-  display.setCursor(20,28);
-  display.println(minutes1);
-  display.setCursor(40,28);
-  display.println(seconds1);
-  display.display();
-  delay(1000);
+	int hora = int(now.hour());
+	int minute1 = int(now.minute());
+	int second1 = int(now.second());
 
+	String horas = String(hora);
+
+	String minutes1 = String(minute1);
+
+	String seconds1 = String(second1);
+
+	display_time(display,horas,minutes1,seconds1);
+
+	//buton read
+	/*if (button == high){
+	change_time(timing_array)
+	*/	
 
 	//servo_tester(120,90,myservo);
-	ativado(5,12,18,59,now,myservo);
-	watering_plants(6,30,6,now);
-  
+	ativado(timing_array[0],timing_array[1],timing_array[2],
+	timing_array[3],now,myservo);
 
+	watering_plants(6,30,6,now);
 }
 
 /**
@@ -112,7 +103,6 @@ void loop() {
 *@return
 *void
 */
-
 void servo_tester(int open_angle,int close_angle,Servo my_servo){
 	Serial.println("Opening");
 	//delay(2000);
@@ -200,7 +190,6 @@ void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_se
 *void
 */
 void activate_servo(int open_angle,int close_angle,Servo my_servo,int timing){
-
 	Serial.println("Opening");
 	my_servo.write(open_angle);
 	delay(timing);
