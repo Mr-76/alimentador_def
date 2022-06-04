@@ -161,10 +161,10 @@ void watering_plants(int hour,int minute,int tempo_aguar,DateTime now){
 */
 void ativado(int hour1,int hour2,int hour3,int minutes1,DateTime now,Servo my_servo){
 	Serial.println("function ativado");
-	int angle  = 180;
+	int angle  = 135;
 	int repeat = 3;
 	int timing = 1700;
-	int closed = 155;
+	int closed = 166;
 	int timings_array[] = {hour1,hour2,hour3};
 	int size_array = (sizeof(timings_array)/sizeof(int));//tamanho do array para loop
 	for(int i = 0;i < size_array;i++){
