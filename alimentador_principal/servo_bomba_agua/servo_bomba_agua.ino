@@ -27,7 +27,7 @@ Adafruit_SSD1306 display(-1);
 
 RTC_DS1307 RTC; //RTC object 
 Servo myservo; //servo object
-int PINO_RELE = D5;
+int PINO_RELE = 5;
 int timing_array[] = {8,12,16,5};
 void setup(){
 	Serial.begin(57600);
@@ -52,7 +52,7 @@ void setup(){
 	}
   //RTC.adjust(DateTime(2022, 5, 17, 17, 11, 0));
   
-	myservo.attach(D4);
+	myservo.attach(4);
 	myservo.write(155);
   
 }
