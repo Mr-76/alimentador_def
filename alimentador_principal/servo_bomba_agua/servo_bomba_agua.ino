@@ -1,9 +1,10 @@
+#include <FoodMachine.h>
+#include <Controller.h>
 #include "Servo.h"
 #include <Wire.h>
 #include "RTClib.h"
 #include <Keypad.h>
 #include <SPI.h>
-#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
@@ -28,7 +29,10 @@ Adafruit_SSD1306 display(-1);
 RTC_DS1307 RTC; //RTC object 
 Servo myservo; //servo object
 int PINO_RELE = 5;
-int timing_array[] = {8,12,16,5};
+int timing_array[] = {8,12,16,5};//YEA AAAAAAAa
+
+Controller control(timing_array);
+
 void setup(){
 	Serial.begin(57600);
 	pinMode(LED_BUILTIN, OUTPUT);

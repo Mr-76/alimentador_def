@@ -2,6 +2,8 @@
 #define Controller_h
 
 #include "Arduino.h"
+#include "RTClib.h"
+#include "FoodMachine.h"
 
 class Controller
 
@@ -9,7 +11,7 @@ class Controller
 
   public:
 
-    Controller(int[4] timings);
+    Controller(int timings[4]);
 
     void activate(DateTime now,FoodMachine foodMachine);
 
@@ -19,7 +21,7 @@ class Controller
 
 
   private:
-    int[4] _timings;
+    int _timings[4];
     int _times;
     int _duration;
 

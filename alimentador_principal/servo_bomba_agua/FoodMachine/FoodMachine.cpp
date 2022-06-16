@@ -12,7 +12,7 @@ FoodMachine::FoodMachine(int pin,Servo servo,int angle_c,int angle_o)
   _angle_o = angle_o;
 }
 
-void FoodMachine::open_exit()
+void FoodMachine::open_exit(DateTime now)
 {
   _servo.write(_angle_o);
 }

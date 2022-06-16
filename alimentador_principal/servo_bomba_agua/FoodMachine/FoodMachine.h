@@ -3,6 +3,9 @@
 
 #include "Arduino.h"
 #include "Servo.h"
+#include "RTClib.h"
+
+
 
 class FoodMachine
 
@@ -12,7 +15,7 @@ class FoodMachine
 
     FoodMachine(int pin,Servo servo,int angle_c,int angle_o);
 
-    void open_exit();
+    void open_exit(DateTime now);
 
     void close_exit();
 
