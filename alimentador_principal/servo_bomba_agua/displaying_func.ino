@@ -1,8 +1,8 @@
 void display_time(Adafruit_SSD1306 display,String hour1,String minute1,String second1){
     display.clearDisplay();
     // Display Text
-    display.setTextSize(1);
-    display.setTextColor(0,1);
+    display.setTextSize(2);
+    display.setTextColor(1,0);
     display.setCursor(0,28);
     display.println(hour1);
     display.setCursor(20,28);
@@ -14,7 +14,7 @@ void display_time(Adafruit_SSD1306 display,String hour1,String minute1,String se
 
 }
 // need to test the reuse
-void display_time(Adafruit_SSD1306 display,int hour1,int hour2,int hour3,int minute1){
+/**void display_time(Adafruit_SSD1306 display,int hour1,int hour2,int hour3,int minute1){
     
     String hour11 = String(hour1);
     String hour22 = String(hour2);
@@ -36,6 +36,7 @@ void display_time(Adafruit_SSD1306 display,int hour1,int hour2,int hour3,int min
     display.display();
     delay(1000);
 }
+*/
 
 //reuse function or not ?
 

@@ -15,7 +15,7 @@ class FoodMachine
 
     FoodMachine(int pin,Servo servo,int angle_c,int angle_o);
 
-    void open_exit(DateTime now);
+    void open_exit();
 
     void close_exit();
 
