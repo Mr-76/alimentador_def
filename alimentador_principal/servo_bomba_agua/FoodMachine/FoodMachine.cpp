@@ -12,12 +12,20 @@ FoodMachine::FoodMachine(Servo servo,int angle_c,int angle_o)
 
 void FoodMachine::open_exit()
 {
-  _servo.write(_angle_o);
+	for (int i = _angle_c;i <= _angle_o;i++){
+		_servo.write(i);
+		delay(15);
+	}
+  //_servo.write(_angle_o);
 }
 
 void FoodMachine::close_exit()
 {
-  _servo.write(_angle_c);
+	for (int i = _angle_o;i >= _angle_c;i--){
+		_servo.write(i);
+		delay(15);
+	}
+  //_servo.write(_angle_c);
 }
 
 void FoodMachine::attach(int pin)
