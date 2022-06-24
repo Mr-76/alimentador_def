@@ -29,18 +29,16 @@ Adafruit_SSD1306 display(-1);
 RTC_DS1307 RTC; //RTC object
 Servo myservo; //servo object
 int PINO_RELE = 5;
-int timing_array[] = {8, 12, 17, 0}; //YEA AAAAAAAa
+int timing_array[] = {8, 14, 19, 51}; //YEA AAAAAAAa
 
-//Controller control(timing_array);
-
-//FoodMachine foodMachine(PINO_RELE, myservo, 166, 135); //servo attach not working inside classmaybe attach the servo then pass the object
-
-
+Controller control(timing_array);
+//166 135
+FoodMachine foodMachine(myservo, 166, 135);
 
 void setup() {
-  //control.setRepeat(2);//seting repeating time
- myservo.attach(5);
-  
+  control.setRepeat(2);//seting repeating time
+  //myservo.attach(5);
+  foodMachine.attach(5); //attach pin to  servo
   Serial.begin(57600);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(PINO_RELE, OUTPUT);
@@ -87,14 +85,16 @@ void loop() {
 
   String seconds1 = String(second1);
 
-  display_time(display, horas, minutes1, seconds1);
+ // display_time(display, horas, minutes1, seconds1);
   //buton read
   /*if (button == high){
     change_time(timing_array)
   */
   //foodMachine.open_exit();
-  servo_tester(120,90,myservo);
-  //control.activate(now, foodMachine);
+  //delay(1000);
+  //foodMachine.close_exit();
+  //servo_tester(166,135,myservo);
+  control.activate(now, foodMachine);
   //ativado(timing_array[0],timing_array[1],timing_array[2],
   //timing_array[3],now,myservo);
   //watering_plants(6,30,6,now);
@@ -113,13 +113,23 @@ void loop() {
 */
 void servo_tester(int open_angle, int close_angle, Servo my_servo) {
   Serial.println("Opening");
-  //delay(2000);
-  my_servo.write(open_angle);
-  delay(2000);
-  Serial.println("Closing...");
-  //delay(2000);
-  my_servo.write(close_angle);
-  delay(2000);
+ 
+  for (int i = close_angle;i <= open_angle;i++){
+    myservo.write(i);
+    delay(15);
+  }
+   for (int i = open_angle;i >= close_angle;i--){
+    myservo.write(i);
+    delay(15);
+  }
+ 
+ // my_servo.write(open_angle);
+  //delay(1000);
+ // Serial.println("Closing...");
+  //my_servo.write(close_angle);
+  //  delay(1000);
+
+ 
 }
 
 /**

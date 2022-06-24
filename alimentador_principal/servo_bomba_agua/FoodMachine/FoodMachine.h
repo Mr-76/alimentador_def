@@ -13,16 +13,16 @@ class FoodMachine
 
   public:
 
-    FoodMachine(int pin,Servo servo,int angle_c,int angle_o);
+    FoodMachine(Servo servo,int angle_c,int angle_o);
 
     void open_exit();
 
     void close_exit();
 
+    void attach(int pin);
 
   private:
     Servo _servo;
-    int _pin;
     int _angle_c;
     int _angle_o;
 
