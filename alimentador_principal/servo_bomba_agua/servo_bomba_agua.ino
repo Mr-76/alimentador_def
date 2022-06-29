@@ -29,20 +29,31 @@ Adafruit_SSD1306 display(-1);
 RTC_DS1307 RTC; //RTC object
 Servo myservo; //servo object
 int PINO_RELE = 5;
-int timing_array[] = {8, 14, 19, 51};
+int timing_array[] = {8, 13, 19, 25};
+const int Pinbutton1 = 12;
+const int Pinbutton2 = 7;
+const int Pinbutton3 = 4;
+int button1 = 0;
+int button2 = 0;
+int button3 = 0;
 
-Controller control(timing_array);
-FoodMachine foodMachine(myservo, 166, 135);
+
+Controller control(timing_array); FoodMachine foodMachine(myservo, 70, 110);
 
 void setup() {
   control.setRepeat(2);//seting repeating time
   foodMachine.attach(5); //attach pin to  servo
   Serial.begin(57600);
+  foodMachine.close_exit();//clsoe the exit when starting
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(PINO_RELE, OUTPUT);
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  // Clear the buffer.
+  display.clearDisplay();
+
+  pinMode(Pinbutton1, INPUT);
+  pinMode(Pinbutton2, INPUT);
+  pinMode(Pinbutton3, INPUT);
 
 
   if (! RTC.begin()) {
@@ -82,11 +93,84 @@ void loop() {
 
   String seconds1 = String(second1);
 
-  // display_time(display, horas, minutes1, seconds1);
   //servo_tester(166,135,myservo);
-  control.activate(now, foodMachine);
-  
- 
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 28);
+  display.println("HAA");
+  display.display();
+
+  delay(1000);
+  control.activate(now, foodMachine); // display not working if this is active :(
+
+
+  display_time(horas, minutes1, seconds1);//not working if contro active 
+  //servo_tester(166,135,myservo);
+  Serial.println("out...");
+
+  button2 = digitalRead(Pinbutton2);
+
+
+  if (button2 == HIGH) {
+    select_timings();
+  }
+}
+
+/**
+   displays the current timings in the system and lets u modify it.
+   theres a 5 in the display for some reason >:()
+*/
+void select_timings() {
+  Serial.println("MENU...");
+  for (int i = 0; i < 4; i ++) {
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 28);
+    display.println("CHANGE TIMINGS");
+    display.display();
+    while (true) {
+      delay(500);
+      button1 = digitalRead(Pinbutton1);
+      button2 = digitalRead(Pinbutton2);
+      button3 = digitalRead(Pinbutton3);
+
+      String horas1 = String(timing_array[0]);
+
+      String horas2 = String(timing_array[1]);
+
+      String horas3 = String(timing_array[2]);
+
+      String minutes1 = String(timing_array[3]);
+      display_time(horas1, horas2, horas3, minutes1);
+
+      if (button2 == HIGH) {
+        Serial.println("press...");
+        display.clearDisplay();
+        display.setTextSize(2);
+        display.setTextColor(WHITE);
+        display.setCursor(0, 28);
+        display.println("NEXT");
+        display.display();
+        delay(500);
+        break;
+      } else if (button1 == HIGH) {
+        timing_array[i]++;
+        display_time(horas1, horas2, horas3, minutes1);
+        Serial.println(timing_array[i]);
+        continue;
+      } else if (button3 == HIGH) {
+        timing_array[i]--;
+        display_time(horas1, horas2, horas3, minutes1);
+        Serial.println(timing_array[i]);
+        continue;
+
+      } else {
+        continue;
+      }
+    }
+  }
 }
 
 /**
@@ -180,7 +264,7 @@ void ativado(int hour1, int hour2, int hour3, int minutes1, DateTime now, Servo 
 /**
   Activates the servo
   @param open_angle
-  angle to open the exit of food
+  angle to open the exit of food2
   @param close_angle
   angle to close the exit of food
   @param my_servo
