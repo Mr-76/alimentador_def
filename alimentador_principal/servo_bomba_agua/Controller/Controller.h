@@ -19,6 +19,7 @@ class Controller
 
     void setOpenTime(int duration);
 
+    void changeTiming(int timings[4]);
 
   private:
     int _timings[4];

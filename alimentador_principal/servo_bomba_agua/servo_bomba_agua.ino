@@ -29,7 +29,7 @@ Adafruit_SSD1306 display(-1);
 RTC_DS1307 RTC; //RTC object
 Servo myservo; //servo object
 int PINO_RELE = 5;
-int timing_array[] = {8, 13, 19, 25};
+int timing_array[] = {9, 13, 19, 31};
 const int Pinbutton1 = 12;
 const int Pinbutton2 = 7;
 const int Pinbutton3 = 4;
@@ -41,7 +41,7 @@ int button3 = 0;
 Controller control(timing_array); FoodMachine foodMachine(myservo, 70, 110);
 
 void setup() {
-  control.setRepeat(2);//seting repeating time
+  control.setRepeat(3);//seting repeating time
   foodMachine.attach(5); //attach pin to  servo
   Serial.begin(57600);
   foodMachine.close_exit();//clsoe the exit when starting
@@ -93,24 +93,27 @@ void loop() {
 
   String seconds1 = String(second1);
 
-  //servo_tester(166,135,myservo);
   display.clearDisplay();
   display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor(0, 28);
-  display.println("HAA");
+  display.println(horas);
+  display.setCursor(30, 28);
+  display.println(minutes1);
+  display.setCursor(70, 28);
+  display.println(seconds1);
   display.display();
-
   delay(1000);
+  //servo_tester(166,135,myservo);
+
   control.activate(now, foodMachine); // display not working if this is active :(
 
 
-  display_time(horas, minutes1, seconds1);//not working if contro active 
+  //display_time(horas, minutes1, seconds1);//not working if contro active somehow fucion not working
   //servo_tester(166,135,myservo);
   Serial.println("out...");
 
   button2 = digitalRead(Pinbutton2);
-
 
   if (button2 == HIGH) {
     select_timings();
@@ -130,20 +133,24 @@ void select_timings() {
     display.setCursor(0, 28);
     display.println("CHANGE TIMINGS");
     display.display();
+    delay(1000);
     while (true) {
-      delay(500);
+      delay(200);
       button1 = digitalRead(Pinbutton1);
       button2 = digitalRead(Pinbutton2);
       button3 = digitalRead(Pinbutton3);
 
-      String horas1 = String(timing_array[0]);
+      String item = String(timing_array[i]);
+      String index = String(i + 1);
 
-      String horas2 = String(timing_array[1]);
+      display.clearDisplay();
+      display.setTextSize(2);
+      display.setTextColor(WHITE);
+      display.setCursor(0, 28);
+      display.println(item);
+      display.display();
+      delay(900);
 
-      String horas3 = String(timing_array[2]);
-
-      String minutes1 = String(timing_array[3]);
-      display_time(horas1, horas2, horas3, minutes1);
 
       if (button2 == HIGH) {
         Serial.println("press...");
@@ -157,12 +164,10 @@ void select_timings() {
         break;
       } else if (button1 == HIGH) {
         timing_array[i]++;
-        display_time(horas1, horas2, horas3, minutes1);
         Serial.println(timing_array[i]);
         continue;
       } else if (button3 == HIGH) {
         timing_array[i]--;
-        display_time(horas1, horas2, horas3, minutes1);
         Serial.println(timing_array[i]);
         continue;
 
@@ -171,6 +176,7 @@ void select_timings() {
       }
     }
   }
+  control.changeTiming(timing_array);
 }
 
 /**

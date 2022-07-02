@@ -10,6 +10,15 @@ Controller::Controller(int timings[4])
   _timings[3] = timings[3];
 };
 
+void Controller::changeTiming(int timings[4]){
+  _timings[0] = timings[0];
+  _timings[1] = timings[1];
+  _timings[2] = timings[2];
+  _timings[3] = timings[3];
+
+}
+
+
 void Controller::setRepeat(int times)
 {
   _times = times;

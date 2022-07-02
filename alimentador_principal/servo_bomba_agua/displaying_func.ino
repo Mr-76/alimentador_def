@@ -25,5 +25,5 @@ void display_time(String hour1, String hour2, String hour3, String minute1) {
   display.setCursor(120, 28);
   display.println(minute1);
   display.display();
-  delay(100);
+  delay(1000);
 }
