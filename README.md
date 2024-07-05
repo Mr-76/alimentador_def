@@ -1,17 +1,18 @@
-## Little project that lets me control the amount of food given to my birds.
+# Automated Bird Feeder Project
 
+This project automates the feeding of my birds using an Arduino Uno, an RTC DS1307, an OLED display DS1306, 3 buttons, a servo motor, and PVC pipes. It ensures that my birds are fed even when I am not at home.
 
-The little project,currently uses oen arduino uno, a rtc ds1307,a oled display ds1306,3 buttons a servo motor, and pvc pipes.
+## Features
 
-The project lets me automate the action of giving food to my birds,since sometimes im not a home, and i still need to give them food.
+- **Automated Feeding:** The project uses three preset timings to feed the birds.
+- **Configurable Timings:** Timings can be modified either by hardcoding or using the menu interface, which allows changes on the fly. Note that if the Arduino resets, the timings also reset.
 
-for now it uses 3 timings, to feed them, you can also modify the current timigns as ur needs on a hardcode way or using the little
-menu that lets you change the timings of the little machine on the run(if the arduino resets so does the timaings).
+## Components Used
 
+- Arduino Uno
+- RTC DS1307
+- OLED Display DS1306
+- 3 Buttons
+- Servo Motor
+- PVC Pipes
 
-## todo
-
-- [ ] Set up any ammoutn of timings to be used
-- [ ] Be able to modigy the amount of repetion of the feedng time.
-- [ ] Probrably change the display.
-- [ ] Build a somewhat of a pcb board
