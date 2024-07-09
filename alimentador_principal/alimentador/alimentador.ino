@@ -38,7 +38,7 @@ int button3 = 0;
 
 
 Controller control(timing_array); 
-FoodMachine foodMachine(myservo, 70, 110);
+FoodMachine foodMachine(myservo, 35, 110);
 
 void setup() {
   Serial.begin(57600);
@@ -49,9 +49,9 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
 
-  pinMode(Pinbutton1, INPUT);
-  pinMode(Pinbutton2, INPUT);
-  pinMode(Pinbutton3, INPUT);
+ //pinMode(Pinbutton1, INPUT);
+ //pinMode(Pinbutton2, INPUT);
+ //pinMode(Pinbutton3, INPUT);
 
 
   if (! RTC.begin()) {
@@ -59,10 +59,10 @@ void setup() {
     Serial.flush();
   }
 
-  if (! RTC.isrunning()) {
+  if (!RTC.isrunning()) {
     Serial.println("RTC is NOT running, let's set the time!");
     //	RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    RTC.adjust(DateTime(2022, 5, 17, 9, 49, 0));
+    RTC.adjust(DateTime(2024, 7, 06, 10, 25, 0));
   }
 }
 
@@ -79,6 +79,7 @@ void loop() {
   delay(1000);
 
 
+  //servo_tester(70, 110,myservo);
   int hora = int(now.hour());//getting current hour.
   int minute1 = int(now.minute()); //getting current minute.
   int second1 = int(now.second()); //getting current second.
